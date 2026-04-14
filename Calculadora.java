@@ -1,5 +1,3 @@
-
-
 import java.awt.EventQueue;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -8,7 +6,7 @@ import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JTextField;
 
-public class CalculadoraGrafica {
+public class Calculadora {
 
     private JFrame frame;
     private JTextField textField;
@@ -18,7 +16,7 @@ public class CalculadoraGrafica {
         EventQueue.invokeLater(new Runnable() {
             public void run() {
                 try {
-                    CalculadoraGrafica window = new CalculadoraGrafica();
+                    Calculadora window = new Calculadora();
                     window.frame.setVisible(true);
                 } catch (Exception e) {
                     e.printStackTrace();
@@ -27,7 +25,7 @@ public class CalculadoraGrafica {
         });
     }
 
-    public CalculadoraGrafica() {
+    public Calculadora() {
         initialize();
     }
 
@@ -91,9 +89,34 @@ public class CalculadoraGrafica {
         JButton igual = new JButton("=");
         igual.setBounds(423, 179, 89, 20);
         frame.getContentPane().add(igual);
+        igual.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                try {
+                    double num2 = Double.parseDouble(textField.getText());
+                    double resultado = logica.calcular(num2);
+                    textField.setText(String.valueOf(resultado));
+                } catch (ArithmeticException ex) {
+                    textField.setText("Error");
+                } catch (Exception ex) {
+                    textField.setText("Entrada no válida");
+                }
+            }
+        });
+
+        crearBotonNumero("7", 233, 77);
+        crearBotonNumero("8", 329, 77);
+        crearBotonNumero("9", 423, 77);
+
+        crearBotonNumero("4", 233, 111);
+        crearBotonNumero("5", 329, 111);
         crearBotonNumero("6", 423, 111);
+
         crearBotonNumero("1", 233, 145);
         crearBotonNumero("2", 329, 145);
+        crearBotonNumero("3", 423, 145);
+
+        crearBotonNumero("0", 233, 237, 279, 23);
+    }
 
     private void guardarOperacion(String operacion) {
         try {
@@ -120,63 +143,41 @@ public class CalculadoraGrafica {
             }
         });
     }
-}
-        crearBotonNumero("3", 423, 145);
-        crearBotonNumero("0", 233, 237, 279, 23);
-    }
-        igual.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-        crearBotonNumero("5", 329, 111);
-                try {
-                    double num2 = Double.parseDouble(textField.getText());
-        crearBotonNumero("4", 233, 111);
-                    double resultado = logica.calcular(num2);
-        crearBotonNumero("8", 329, 77);
-        crearBotonNumero("9", 423, 77);
-                    textField.setText(String.valueOf(resultado));
 
-        crearBotonNumero("7", 233, 77);
-                }
+    class CalculadoraLogica {
+
+        private double num1;
+        private String operacion;
+
+        public void setPrimerNumero(double num1) {
+            this.num1 = num1;
+        }
+
+        public void setOperacion(String operacion) {
+            this.operacion = operacion;
+        }
+
+        public void limpiar() {
+            this.num1 = 0;
+            this.operacion = "";
+        }
+
+        public double calcular(double num2) {
+            switch (operacion) {
+                case "+":
+                    return num1 + num2;
+                case "-":
+                    return num1 - num2;
+                case "*":
+                    return num1 * num2;
+                case "/":
+                    if (num2 == 0) {
+                        throw new ArithmeticException("No se puede dividir entre 0");
+                    }
+                    return num1 / num2;
+                default:
+                    throw new IllegalStateException("No hay operación seleccionada");
             }
-        });
-                    textField.setText("Error");
-                } catch (Exception ex) {
-                    textField.setText("Entrada no válida");
-public class CalculadoraLogica {
-
-    private double num1;
-    private String operacion;
-
-    public void setPrimerNumero(double num1) {
-        this.num1 = num1;
-    }
-
-    public void setOperacion(String operacion) {
-        this.operacion = operacion;
-    }
-
-    public void limpiar() {
-        this.num1 = 0;
-        this.operacion = "";
-    }
-
-    public double calcular(double num2) {
-        switch (operacion) {
-            case "+":
-                return num1 + num2;
-            case "-":
-                return num1 - num2;
-            case "*":
-                return num1 * num2;
-            case "/":
-                if (num2 == 0) {
-                    throw new ArithmeticException("No se puede dividir entre 0");
-                }
-                return num1 / num2;
-            default:
-                throw new IllegalStateException("No hay operación seleccionada");
         }
     }
 }
-
-
