@@ -1,0 +1,33 @@
+name: Java CI - Calculadora
+
+on:
+  push:
+    branches: [ "main", "francisco" ]
+  pull_request:
+    branches: [ "main" ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      # 1. Clonar repositorio
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      # 2. Instalar Java
+      - name: Setup Java
+        uses: actions/setup-java@v4
+        with:
+          distribution: 'temurin'
+          java-version: '17'
+
+      # 3. Compilar tu código
+      - name: Compilar proyecto
+        run: |
+          javac Calculadora.java
+
+      # 4. Ejecutar (opcional)
+      - name: Ejecutar programa
+        run: |
+          java Calculadora || echo "Programa ejecutado (puede ser interfaz gráfica)"
